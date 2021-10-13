@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Foodpanda Chat Application</title>
+</head>
+<body>
+<h1>Please enter Message Name and Content:</h1>
+<form method="post">
+    <input type= "text" name="messagename" placeholder="Message Name">
+    <input type= "text" name="messagecontent" placeholder="Message Content">
+    <input type= "submit">
+</form>
+{{if .UserName}}
+{{else}}
+{{end}}
+<h2>Go to <a href="/userloginsuccess">User Logged In Menu</a></h2>
+</body>
+</html>

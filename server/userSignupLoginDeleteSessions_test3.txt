@@ -1,0 +1,119 @@
+package main
+
+import (
+	"net/http"
+	"net/http/httptest"
+	"testing"
+)
+
+func TestUserSignup(t *testing.T) {
+	t.Run("returns Sign up Result", func(t *testing.T) {
+		request, _ := http.NewRequest(http.MethodGet, "/usersignup", nil)
+		response := httptest.NewRecorder()
+
+		userSignup(response, request)
+
+		got := response.Body.String()
+		want := "<!doctype html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>Foodpanda Chat Application</title>\r\n</head>\r\n<body>\r\n<h1>User Signup:</h1>\r\n<h1>Please enter the following information</h1>\r\n<form method=\"post\">\r\n    <input type= \"text\" name=\"username\" placeholder=\"username (Email)\">\r\n    <input type= \"password\" name=\"password\" placeholder=\"Password\">\r\n    <input type= \"text\" name=\"firstname\" placeholder=\"First Name\">\r\n    <input type= \"text\" name=\"lastname\" placeholder=\"Last Name\">\r\n    <select name=\"language\" size=\"1\" id=\"language\">\r\n    <option value=\"english\">English</option>\r\n    <option value=\"chinese\">Chinese</option>\r\n    <option value=\"malay\">Malay</option>\r\n    <option value=\"japanese\">Japanese</option>\r\n    <option value=\"spanish\">Spanish</option>\r\n    <option value=\"german\">German</option>\r\n    </select>\r\n    <input type= \"submit\">\r\n</form>\r\n\r\n\r\n<h2>Go to <a href=\"/\">Main Menu</a></h2>\r\n</body>\r\n</html>"
+
+		if got != want {
+			t.Errorf("got %q, want %q", got, want)
+		}
+	})
+}
+
+func TestUserLogin(t *testing.T) {
+	t.Run("returns Login Result", func(t *testing.T) {
+		request, _ := http.NewRequest(http.MethodGet, "/userlogin", nil)
+		response := httptest.NewRecorder()
+
+		userLogin(response, request)
+
+		got := response.Body.String()
+		want := "<!doctype html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>Foodpanda Chat Application</title>\r\n</head>\r\n<body>\r\n\r\n\r\n<h1>User Login:</h1>\r\n<form method=\"post\">\r\n    <input type= \"text\" name=\"username\" placeholder=\"username (Email)\">\r\n    <input type= \"password\" name=\"password\" placeholder=\"password\">\r\n    <input type= \"submit\">\r\n</form>\r\n\r\n<h2>Go to <a href=\"/\">Main Menu</a></h2>\r\n</body>\r\n</html>"
+
+		if got != want {
+			t.Errorf("got %q, want %q", got, want)
+		}
+	})
+}
+
+func TestDeleteUser(t *testing.T) {
+	t.Run("returns Delete User Result", func(t *testing.T) {
+		request, _ := http.NewRequest(http.MethodGet, "/deleteuser", nil)
+		response := httptest.NewRecorder()
+
+		deleteUser(response, request)
+
+		got := response.Body.String()
+		want := "<!doctype html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>Foodpanda Chat Application</title>\r\n</head>\r\n<body>\r\n<h1>Delete User Account:</h1>\r\n<h1>Please enter your Username (Email) and Password to confirm</h1>\r\n<form method=\"post\">\r\n    <input type= \"text\" name=\"username\" placeholder=\"username (Email)\">\r\n    <input type= \"password\" name=\"password\" placeholder=\"Password\">\r\n    <input type= \"submit\">\r\n</form>\r\n\r\n\r\n<h2>Go to <a href=\"/\">Main Menu</a></h2>\r\n</body>\r\n</html>"
+
+		if got != want {
+			t.Errorf("got %q, want %q", got, want)
+		}
+	})
+}
+
+func TestUserChangePassword(t *testing.T) {
+	t.Run("returns Change Password Result", func(t *testing.T) {
+		request, _ := http.NewRequest(http.MethodGet, "/userchangepassword", nil)
+		response := httptest.NewRecorder()
+
+		userChangePassword(response, request)
+
+		got := response.Body.String()
+		want := "<!doctype html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>Foodpanda Chat Application</title>\r\n</head>\r\n<body>\r\n<h1>Change Password:</h1>\r\n<h1>Please enter your email address and new password</h1>\r\n<form method=\"post\">\r\n    <input type= \"text\" name=\"username\" placeholder=\"username (Email)\">\r\n    <input type= \"password\" name=\"password\" placeholder=\"New Password\">\r\n    <input type= \"submit\">\r\n</form>\r\n\r\n\r\n<h2>Go to <a href=\"/userloginsuccess\">User Logged In Menu</a></h2>\r\n</body>\r\n</html>"
+
+		if got != want {
+			t.Errorf("got %q, want %q", got, want)
+		}
+	})
+}
+
+func TestUserResetPassword(t *testing.T) {
+	t.Run("returns Reset Password Result", func(t *testing.T) {
+		request, _ := http.NewRequest(http.MethodGet, "/userresetpassword", nil)
+		response := httptest.NewRecorder()
+
+		userResetPassword(response, request)
+
+		got := response.Body.String()
+		want := "<!doctype html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>Foodpanda Chat Application</title>\r\n</head>\r\n<body>\r\n<h1>User Reset Password:</h1>\r\n<h1>Please enter your Email</h1>\r\n<form method=\"post\">\r\n    <input type= \"text\" name=\"email\" placeholder=\"Email\">\r\n    <input type= \"submit\">\r\n</form>\r\n\r\n\r\n<h2>Go to <a href=\"/\">Main Menu</a></h2>\r\n</body>\r\n</html>"
+
+		if got != want {
+			t.Errorf("got %q, want %q", got, want)
+		}
+	})
+}
+
+func TestUserResetChangePassword(t *testing.T) {
+	t.Run("returns Reset Change Password Result", func(t *testing.T) {
+		request, _ := http.NewRequest(http.MethodGet, "/userresetchangepassword", nil)
+		response := httptest.NewRecorder()
+
+		userResetChangePassword(response, request)
+
+		got := response.Body.String()
+		want := "<!doctype html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>Foodpanda Chat Application</title>\r\n</head>\r\n<body>\r\n<h1>User Reset Password:</h1>\r\n<form method=\"post\">\r\n    <input type= \"password\" name=\"password\" placeholder=\"New Password\">\r\n    <input type= \"submit\">\r\n</form>\r\n\r\n\r\n<h2>Go to <a href=\"/\">Main Menu</a></h2>\r\n</body>\r\n</html>"
+
+		if got != want {
+			t.Errorf("got %q, want %q", got, want)
+		}
+	})
+}
+
+func TestLogout(t *testing.T) {
+	t.Run("returns Logout Result", func(t *testing.T) {
+		request, _ := http.NewRequest(http.MethodGet, "/logout", nil)
+		response := httptest.NewRecorder()
+
+		logout(response, request)
+
+		got := response.Body.String()
+		want := "<a href=\"/\">See Other</a>.\n\n"
+
+		if got != want {
+			t.Errorf("got %q, want %q", got, want)
+		}
+	})
+}

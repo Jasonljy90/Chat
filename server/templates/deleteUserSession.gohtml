@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Foodpanda Chat Application</title>
+</head>
+<body>
+
+{{if .UserName}}
+{{else}}
+<h1>Delete Patient Session:</h1>
+<form method="post">
+    <input type= "text" name="patientUserName" placeholder="Patient userName">
+    <input type= "submit">
+</form>
+{{end}}
+<h2>Go to <a href="/adminLoginSuccess">Admin Logged In Main Menu</a></h2>
+</body>
+</html>

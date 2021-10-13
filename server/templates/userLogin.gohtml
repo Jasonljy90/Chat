@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Foodpanda Chat Application</title>
+</head>
+<body>
+
+{{if .UserName}}
+<h1>You are logged in</h1>
+USER NAME {{.UserName}}<br>
+PASSWORD {{.Password}}<br>
+FIRST {{.First}}<br>
+LAST {{.Last}}<br>
+{{else}}
+<h1>User Login:</h1>
+<form method="post">
+    <input type= "text" name="username" placeholder="username (Email)">
+    <input type= "password" name="password" placeholder="password">
+    <input type= "submit">
+</form>
+{{end}}
+<h2>Go to <a href="/">Main Menu</a></h2>
+</body>
+</html>
