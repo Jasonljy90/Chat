@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	"github.com/nsqio/go-nsq"
+	//"github.com/nsqio/go-nsq"
 )
 
 const (

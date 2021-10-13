@@ -65,6 +65,11 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "home.html")
 }
 
+func userChat(res http.ResponseWriter, req *http.Request) {
+	newUrl := "http://localhost:8000"
+	http.Redirect(res, req, newUrl, http.StatusSeeOther)
+}
+
 /*
 func userChat(res http.ResponseWriter, req *http.Request) {
 	if req.Method == http.MethodPost {
@@ -125,7 +130,7 @@ func main() {
 	router.HandleFunc("/usersignup", userSignup)
 	router.HandleFunc("/userlogin", userLogin)
 	router.HandleFunc("/userloginsuccess", userLoginSuccess)
-	//router.HandleFunc("/userchat", userChat)
+	router.HandleFunc("/userchat", userChat)
 	router.HandleFunc("/deleteuser", deleteUser)
 	router.HandleFunc("/userchangepassword", userChangePassword)
 	router.HandleFunc("/userchangelanguage", userChangeLanguage)
