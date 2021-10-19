@@ -1,0 +1,169 @@
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+	"log"
+	"strings"
+	"time"
+
+	"github.com/bregydoc/gtranslate"
+	"github.com/nsqio/go-nsq"
+	"golang.org/x/text/language"
+)
+
+var (
+	mainInput int
+)
+
+type Message struct {
+	Name      string
+	Content   string
+	Timestamp string
+}
+
+func sendjapMsg(msgName, msgContent string) {
+	//The only valid way to instantiate the Config
+	config := nsq.NewConfig()
+	//Creating the Producer using NSQD Address
+	producer, err := nsq.NewProducer("127.0.0.1:4150", config)
+	if err != nil {
+		log.Fatal(err)
+	}
+	//Init topic name and message
+	topic := "Topic_Example"
+	msg := Message{
+		Name:      msgName,
+		Content:   msgContent,
+		Timestamp: time.Now().String(),
+	}
+	//Convert message as []byte
+	payload, err := json.Marshal(msg)
+	if err != nil {
+		log.Println(err)
+	}
+	//Publish the Message
+	err = producer.Publish(topic, payload)
+	if err != nil {
+		log.Println(err)
+	}
+	//Translate English To Japanese
+	translated, err := gtranslate.TranslateWithParams(
+		msgContent,
+		gtranslate.TranslationParams{
+			From: "en",
+			To:   "ja",
+		},
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("en: %s | ja: %s \n", msgContent, translated)
+}
+
+func sendspainMsg(msgName, msgContent string) {
+	//The only valid way to instantiate the Config
+	config := nsq.NewConfig()
+	//Creating the Producer using NSQD Address
+	producer, err := nsq.NewProducer("127.0.0.1:4150", config)
+	if err != nil {
+		log.Fatal(err)
+	}
+	//Init topic name and message
+	topic := "Topic_Example"
+	msg := Message{
+		Name:      msgName,
+		Content:   msgContent,
+		Timestamp: time.Now().String(),
+	}
+	//Convert message as []byte
+	payload, err := json.Marshal(msg)
+	if err != nil {
+		log.Println(err)
+	}
+	//Publish the Message
+	err = producer.Publish(topic, payload)
+	if err != nil {
+		log.Println(err)
+	}
+	//Translate English To Spainish
+	translatedText, _ := gtranslate.Translate(msgContent, language.English, language.Spanish)
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("en: %s | spainish: %s \n", msgContent, translatedText)
+}
+
+func sendsimplifiedchineseMsg(msgName, msgContent string) {
+	//The only valid way to instantiate the Config
+	config := nsq.NewConfig()
+	//Creating the Producer using NSQD Address
+	producer, err := nsq.NewProducer("127.0.0.1:4150", config)
+	if err != nil {
+		log.Fatal(err)
+	}
+	//Init topic name and message
+	topic := "Topic_Example"
+	msg := Message{
+		Name:      msgName,
+		Content:   msgContent,
+		Timestamp: time.Now().String(),
+	}
+	//Convert message as []byte
+	payload, err := json.Marshal(msg)
+	if err != nil {
+		log.Println(err)
+	}
+	//Publish the Message
+	err = producer.Publish(topic, payload)
+	if err != nil {
+		log.Println(err)
+	}
+	//Translate English To Simplified Chinese
+	translatedText, _ := gtranslate.Translate(msgContent, language.English, language.SimplifiedChinese)
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("en: %s | simplified chinese: %s \n", msgContent, translatedText)
+}
+
+func sendgermanMsg(msgName, msgContent string) {
+	//The only valid way to instantiate the Config
+	config := nsq.NewConfig()
+	//Creating the Producer using NSQD Address
+	producer, err := nsq.NewProducer("127.0.0.1:4150", config)
+	if err != nil {
+		log.Fatal(err)
+	}
+	//Init topic name and message
+	topic := "Topic_Example"
+	msg := Message{
+		Name:      msgName,
+		Content:   msgContent,
+		Timestamp: time.Now().String(),
+	}
+	//Convert message as []byte
+	payload, err := json.Marshal(msg)
+	if err != nil {
+		log.Println(err)
+	}
+	//Publish the Message
+	err = producer.Publish(topic, payload)
+	if err != nil {
+		log.Println(err)
+	}
+	//Translate English To German
+	translatedText, _ := gtranslate.Translate(msgContent, language.English, language.German)
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("en: %s | german: %s \n", msgContent, translatedText)
+}
+
