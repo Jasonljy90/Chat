@@ -7,8 +7,6 @@ Just run the following
 ```
 cd ./src
 go get github.com/gorilla/websocket
-go mod init src
-go mod tidy
 go run main.go
 ```
 

@@ -73,7 +73,7 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 
 // Need modify it to translate language before seding to every client
 func handleMessages() {
-	var msgNew string
+	var msgNew = ""
 	clientLanguage := "Chinese"
 	for {
 		// Grab the next message from the broadcast channel
@@ -132,6 +132,7 @@ func engToJapMsg(msgContent string) string{
 	}
 	
 	return translatedText
+	//fmt.Printf("en: %s | ja: %s \n", msgContent, translated)
 }
 
 // Translate English To Spainish 
@@ -143,6 +144,7 @@ func engToSpanishMsg(msgContent string) string{
 	}
 
 	return translatedText
+	//fmt.Printf("en: %s | spainish: %s \n", msgContent, translatedText)
 }
 
 // Translate English To Chinese
@@ -154,6 +156,7 @@ func engToChineseMsg(msgContent string) string{
 	}
 
 	return translatedText
+	//fmt.Printf("en: %s | simplified chinese: %s \n", msgContent, translatedText)
 }
 
 // Translate English To German
@@ -165,4 +168,5 @@ func engToGermanMsg(msgContent string) string{
 	}
 	
 	return translatedText
+	//fmt.Printf("en: %s | german: %s \n", msgContent, translatedText)
 }
