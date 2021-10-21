@@ -42,7 +42,7 @@ func resetUserPassword(email string) {
 		return
 	}
 
-	Link := "https://localhost:5221/usertoken/" + token
+	Link := "http://localhost:5221/usertoken/" + token
 	sendEmail(email, Link)
 }
 
