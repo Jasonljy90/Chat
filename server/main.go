@@ -70,31 +70,6 @@ func userChat(res http.ResponseWriter, req *http.Request) {
 	http.Redirect(res, req, newUrl, http.StatusSeeOther)
 }
 
-/*
-func userChat(res http.ResponseWriter, req *http.Request) {
-	if req.Method == http.MethodPost {
-		msgName := req.FormValue("messagename")
-		msgContent := req.FormValue("messagecontent")
-
-		m := messageTest{msgName, msgContent}
-		validate := validator.New()
-		err := validate.Struct(m)
-		if err != nil {
-			io.WriteString(res, `
-			<html>
-			<meta http-equiv='refresh' content='5; url=/userchat '/>
-			Please fill in all fields!<br>
-			You will be redirected shortly in 5 seconds...<br>
-			</html>
-			`)
-			return
-		}
-		SendMsg(msgName, msgContent) // publish message to producer
-	}
-	tpl.ExecuteTemplate(res, "chatAgentRider.gohtml", nil)
-}
-*/
-
 func main() {
 	flag.Parse()
 	hub := newHub()

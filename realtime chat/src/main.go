@@ -3,14 +3,31 @@ package main
 import (
 	"log"
 	"net/http"
+	"database/sql"
+	"os"
+	"fmt"
 
 	"github.com/gorilla/websocket"
 	"github.com/bregydoc/gtranslate"
 	"golang.org/x/text/language"
+	"github.com/joho/godotenv"
+	_ "github.com/go-sql-driver/mysql"
 )
 
-var clients = make(map[*websocket.Conn]bool) // connected clients
-var broadcast = make(chan Message)           // broadcast channel
+type User struct {
+	UserName  string
+	Password  string
+	FirstName string
+	LastName  string
+	Language  string
+}
+
+var(
+	clients = make(map[*websocket.Conn]bool) // connected clients
+ 	broadcast = make(chan Message)           // broadcast channel
+	db    *sql.DB
+	err1 error
+)
 
 // Configure the upgrader
 var upgrader = websocket.Upgrader{
@@ -27,6 +44,19 @@ type Message struct {
 }
 
 func main() {
+	// Get environment variables
+	getEnvVars()
+	mysqlAccount := os.Getenv("MySql_Account")
+
+	// Open database
+	db, err1 = sql.Open("mysql", mysqlAccount)
+	if err1 != nil {
+		panic(err1.Error())
+	} else {
+		fmt.Println("Database opened")
+	}
+	defer db.Close()
+
 	// Create a simple file server
 	fs := http.FileServer(http.Dir("../public"))
 	http.Handle("/", fs)
@@ -54,6 +84,9 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 	// Make sure we close the connection when the function returns
 	defer ws.Close()
 
+	// get user email to fetch language from database
+	//language := getLanguageOfUser(userName)
+	
 	// Register our new client
 	clients[ws] = true
 
@@ -71,23 +104,28 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// Need modify it to translate language before seding to every client
+// Need modify it to translate language before sending to every client
 func handleMessages() {
 	var msgNew = ""
-	clientLanguage := "Chinese"
 	for {
 		// Grab the next message from the broadcast channel
 		msg := <-broadcast
+
+		// get user language preference(now convert key in english to preferred language)
+		clientLanguage := getLanguageOfUser(msg.Email) 
+		
 		// Send it out to every client that is currently connected
 		for client := range clients {
-			if clientLanguage == "Japanese"{
+			if clientLanguage == "japanese"{
 				msgNew = engToJapMsg(msg.Message)
-			}else if clientLanguage == "Chinese"{
+			}else if clientLanguage == "chinese"{
 				msgNew = engToChineseMsg(msg.Message)
-			}else if clientLanguage == "German"{
+			}else if clientLanguage == "german"{
 				msgNew = engToGermanMsg(msg.Message)
-			}else if clientLanguage == "Spanish"{
+			}else if clientLanguage == "spanish"{
 				msgNew = engToSpanishMsg(msg.Message)
+			}else{
+				msgNew = msg.Message	
 			}
 			msg.Message = msgNew
 			err := client.WriteJSON(msg)
@@ -169,4 +207,31 @@ func engToGermanMsg(msgContent string) string{
 	
 	return translatedText
 	//fmt.Printf("en: %s | german: %s \n", msgContent, translatedText)
+}
+
+// get the first name of user in string type
+func getLanguageOfUser(userName string) string {
+	results, err := db.Query("SELECT * FROM MYSTOREDBFOODPANDA.Users where Username=?", userName)
+	if err != nil {
+		fmt.Println(err)
+		return ""
+	}
+	for results.Next() {
+		var person User
+		err = results.Scan(&person.UserName, &person.Password, &person.FirstName, &person.LastName, &person.Language)
+		if err != nil {
+			fmt.Println(err)
+			return ""
+		} else {
+			return person.Language
+		}
+	}
+	return ""
+}
+
+func getEnvVars() {
+	err := godotenv.Load("credentials.env")
+	if err != nil {
+		log.Fatal("Error loading .env file", err)
+	}
 }
